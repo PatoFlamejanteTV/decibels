@@ -78,9 +78,13 @@ export class APWaveformGenerator extends GObject.Object {
   }
 
   generate_peaks_async(uri: string): void {
+    // SENTINEL: Use set_property instead of string interpolation to prevent injection
     this.pipeline = Gst.parse_launch(
-      `uridecodebin name=uridecodebin ! audioconvert ! audio/x-raw,channels=1 ! level name=level interval=${this.INTERVAL} ! fakesink name=faked`,
+      `uridecodebin name=uridecodebin ! audioconvert ! audio/x-raw,channels=1 ! level name=level ! fakesink name=faked`,
     ) as Gst.Bin;
+
+    const level = this.pipeline.get_by_name("level");
+    level?.set_property("interval", this.INTERVAL);
 
     const fakesink = this.pipeline.get_by_name("faked");
     fakesink?.set_property("qos", false);
