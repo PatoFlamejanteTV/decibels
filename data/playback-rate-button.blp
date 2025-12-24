@@ -3,6 +3,12 @@ using Adw 1;
 
 template $APPlaybackRateButton: Adw.Bin {
   MenuButton {
+    tooltip-text: _("Playback Speed");
+
+    accessibility {
+      label: _("Playback Speed");
+    }
+
     Box {
       spacing: 6;
 
@@ -29,6 +35,10 @@ template $APPlaybackRateButton: Adw.Bin {
           vexpand: true;
           orientation: vertical;
           inverted: true;
+
+          accessibility {
+            label: _("Playback Speed");
+          }
 
           adjustment: Adjustment adjustment {
             step-increment: 0.5;
