@@ -115,7 +115,11 @@ export class APWaveformGenerator extends GObject.Object {
             break;
           }
           case Gst.MessageType.EOS: {
-            const highest_peak = Math.max(...this.loaded_peaks);
+            // Use reduce to avoid stack overflow with large arrays
+            const highest_peak = this.loaded_peaks.reduce(
+              (a, b) => Math.max(a, b),
+              0,
+            );
             const peak_coefficient = 1 / (highest_peak <= 0 ? 1 : highest_peak);
             this.peaks = this.loaded_peaks.map((it) => it * peak_coefficient);
             this.loaded_peaks.length = 0;
