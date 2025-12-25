@@ -38,6 +38,10 @@ export class APVolumeButton extends Adw.Bin {
     return muted ? "audio-volume-muted-symbolic" : "audio-volume-high-symbolic";
   }
 
+  private mute_button_tooltip_cb(_widget: this, muted: boolean): string {
+    return muted ? _("Unmute") : _("Mute");
+  }
+
   private menu_button_icon_cb(
     _widget: this,
     volume: number,
