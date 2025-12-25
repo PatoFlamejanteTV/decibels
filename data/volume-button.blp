@@ -37,6 +37,10 @@ template $APVolumeButton: Adw.Bin {
         Scale {
           hexpand: true;
 
+          accessibility {
+            label: _("Volume");
+          }
+
           adjustment: Adjustment adjustment {
             step-increment: 0.2;
             lower: 0;
