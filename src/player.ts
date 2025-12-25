@@ -79,6 +79,7 @@ export class APPlayerState extends Adw.Bin {
       null,
     );
 
+    let last_seconds = -1;
     // @ts-expect-error GObject.BindingTransformFunc return arguments are not correctly typed
     window.stream.bind_property_full(
       "timestamp",
@@ -86,6 +87,13 @@ export class APPlayerState extends Adw.Bin {
       "label",
       GObject.BindingFlags.SYNC_CREATE,
       (_binding, from: number) => {
+        const seconds = Math.floor(from / 1000000);
+        // Optimization: Only update the label if the visible second has changed
+        if (seconds === last_seconds) {
+          return [false, null];
+        }
+
+        last_seconds = seconds;
         return [true, micro_to_string(from)];
       },
       null,
