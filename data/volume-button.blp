@@ -23,6 +23,7 @@ template $APVolumeButton: Adw.Bin {
         ToggleButton mute_button {
           action-name: "player.toggle-mute";
           icon-name: bind $mute_button_icon_cb(template.muted) as <string>;
+          tooltip-text: bind $mute_button_tooltip_cb(template.muted) as <string>;
 
           accessibility {
             label: _("Mute/Unmute");
