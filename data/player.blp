@@ -15,6 +15,10 @@ template $APPlayerState: Adw.Bin {
         orientation: vertical;
 
         $APWaveformScale waveform {
+          accessibility {
+            label: _("Playback Position");
+          }
+
           position-changed => $waveform_position_changed_cb();
           vexpand: true;
           margin-start: 14;
