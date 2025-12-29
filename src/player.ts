@@ -109,6 +109,18 @@ export class APPlayerState extends Adw.Bin {
     // @ts-expect-error GObject.BindingTransformFunc return arguments are not correctly typed
     window.stream.bind_property_full(
       "playing",
+      this._playback_button,
+      "accessible-label",
+      GObject.BindingFlags.SYNC_CREATE,
+      (_binding, from: boolean) => {
+        return [true, from ? _("Pause") : _("Play")];
+      },
+      null,
+    );
+
+    // @ts-expect-error GObject.BindingTransformFunc return arguments are not correctly typed
+    window.stream.bind_property_full(
+      "playing",
       this._playback_image,
       "icon-name",
       GObject.BindingFlags.SYNC_CREATE,
