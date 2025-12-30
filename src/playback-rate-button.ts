@@ -74,6 +74,10 @@ export class APPlaybackRateButton extends Adw.Bin {
       : this._adjustment.value - this._adjustment.step_increment;
   }
 
+  private reset_cb() {
+    this._adjustment.value = 1.0;
+  }
+
   vfunc_root(): void {
     super.vfunc_root();
 
