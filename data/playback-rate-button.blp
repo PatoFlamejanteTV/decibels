@@ -56,6 +56,15 @@ template $APPlaybackRateButton: Adw.Bin {
             mark (3, bottom),
           ]
         }
+
+        Button {
+          label: _("Reset");
+          clicked => $reset_cb();
+
+          styles [
+            "flat",
+          ]
+        }
       }
     };
 
