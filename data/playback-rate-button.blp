@@ -3,7 +3,7 @@ using Adw 1;
 
 template $APPlaybackRateButton: Adw.Bin {
   MenuButton {
-    tooltip-text: _("Playback Speed");
+    tooltip-text: _("Adjust Playback Speed");
 
     accessibility {
       label: _("Playback Speed");
@@ -59,6 +59,7 @@ template $APPlaybackRateButton: Adw.Bin {
 
         Button {
           label: _("Reset");
+          tooltip-text: _("Reset to Normal Speed");
           clicked => $reset_cb();
 
           styles [
