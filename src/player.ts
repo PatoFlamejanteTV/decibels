@@ -21,6 +21,8 @@ export class APPlayerState extends Adw.Bin {
   private _playback_box!: Gtk.Box;
   private _playback_image!: Gtk.Image;
   private _playback_button!: Gtk.Button;
+  private _skip_back_button!: Gtk.Button;
+  private _skip_forward_10_button!: Gtk.Button;
   private _waveform!: APWaveformScale;
 
   headerbar!: APHeaderBar;
@@ -38,6 +40,8 @@ export class APPlayerState extends Adw.Bin {
           "playback_box",
           "playback_image",
           "playback_button",
+          "skip_back_button",
+          "skip_forward_10_button",
           "waveform",
         ],
         Children: ["headerbar"],
@@ -54,6 +58,28 @@ export class APPlayerState extends Adw.Bin {
     const window = this.get_root() as Window;
 
     if (!window || !(window instanceof Window)) return;
+
+    const get_shortcut_hint = (action_name: string, fallback: string) => {
+      const app = window.get_application();
+      if (!app) return ` (${fallback})`;
+
+      const accels = app.get_accels_for_action(action_name);
+      if (accels && accels.length > 0) {
+        const [found, keyval, mods] = Gtk.accelerator_parse(accels[0]);
+        if (!found || mods === null) return ` (${fallback})`;
+        const label = Gtk.accelerator_get_label(keyval, mods);
+        return ` (${label})`;
+      }
+      return ` (${fallback})`;
+    };
+
+    const play_hint = get_shortcut_hint("player.play-pause", "Space");
+    const back_hint = get_shortcut_hint("player.skip-seconds", "Left");
+    const forward_hint = get_shortcut_hint("player.skip-seconds", "Right");
+
+    this._skip_back_button.tooltip_text = _("Skip Back 10s") + back_hint;
+    this._skip_forward_10_button.tooltip_text =
+      _("Skip Forward 10s") + forward_hint;
 
     // Enforce Left-to-Right direction for playback buttons and timeline
     const forced_ltr_widgets = [
@@ -137,7 +163,7 @@ export class APPlayerState extends Adw.Bin {
       "tooltip-text",
       GObject.BindingFlags.SYNC_CREATE,
       (_binding, from: boolean) => {
-        return [true, from ? _("Pause") : _("Play")];
+        return [true, (from ? _("Pause") : _("Play")) + play_hint];
       },
       null,
     );
