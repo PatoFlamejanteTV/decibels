@@ -73,12 +73,12 @@ template $APPlayerState: Adw.Bin {
       Box playback_box {
         spacing: 12;
 
-        Button {
+        Button skip_back_button {
           action-name: "player.skip-seconds";
           action-target: "-10";
           icon-name: "skip-backwards-10-symbolic";
           valign: center;
-          tooltip-text: _("Skip Back 10s (Left)");
+          tooltip-text: _("Skip Back 10s");
 
           accessibility {
             label: _("Skip Back 10s");
@@ -109,7 +109,7 @@ template $APPlayerState: Adw.Bin {
           action-target: "10";
           icon-name: "skip-forward-10-symbolic";
           valign: center;
-          tooltip-text: _("Skip Forward 10s (Right)");
+          tooltip-text: _("Skip Forward 10s");
 
           accessibility {
             label: _("Skip Forward 10s");
