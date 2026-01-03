@@ -11,3 +11,7 @@
 ## 2024-05-23 - Helper Buttons in Popovers
 **Learning:** For inputs like sliders (Scale) that have a "default" or "normal" value (like 1.0x speed), adding a helper button (e.g., "Reset") in the popover significantly improves usability for mouse users who might struggle to drag the slider to the exact value.
 **Action:** Consider adding helper buttons for common actions alongside controls in popovers.
+
+## 2025-05-23 - Keyboard Shortcut Discovery
+**Learning:** Users often miss keyboard shortcuts when they are hidden in a dialog or menu. Adding hints to tooltips (e.g., "Play (Space)") is a non-intrusive way to improve discoverability without cluttering the UI.
+**Action:** When adding or auditing button tooltips, always check if there is an associated keyboard shortcut and include it in the tooltip text, but keep the accessible label clean.

@@ -137,7 +137,12 @@ export class APPlayerState extends Adw.Bin {
       "tooltip-text",
       GObject.BindingFlags.SYNC_CREATE,
       (_binding, from: boolean) => {
-        return [true, from ? _("Pause") : _("Play")];
+        return [
+          true,
+          from
+            ? _("Pause") + " (Space)"
+            : _("Play") + " (Space)"
+        ];
       },
       null,
     );
