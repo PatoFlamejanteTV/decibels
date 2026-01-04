@@ -15,3 +15,7 @@
 ## 2025-05-23 - Keyboard Shortcut Discovery
 **Learning:** Users often miss keyboard shortcuts when they are hidden in a dialog or menu. Adding hints to tooltips (e.g., "Play (Space)") is a non-intrusive way to improve discoverability without cluttering the UI.
 **Action:** When adding or auditing button tooltips, always check if there is an associated keyboard shortcut and include it in the tooltip text, but keep the accessible label clean.
+
+## 2025-05-23 - Blueprint Syntax Traps
+**Learning:** In Blueprint files, property assignments (like `tooltip-text: ...`) mistakenly placed inside a `styles []` block will cause parsing errors or silently fail. `styles` must only contain class strings.
+**Action:** Double-check indentation and scope when modifying `.blp` files, especially when copying code snippets.
