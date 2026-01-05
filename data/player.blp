@@ -100,8 +100,16 @@ template $APPlayerState: Adw.Bin {
           }
 
           styles [
-          tooltip-text: gsprintf(_("%s (%s)"), _("Skip Back 10s"), "Left");
-          tooltip-text: gsprintf(_("%s (%s)"), _("Skip Forward 10s"), "Right");
+            "circular",
+          ]
+        }
+
+        Button {
+          action-name: "player.skip-seconds";
+          action-target: "10";
+          icon-name: "skip-forward-10-symbolic";
+          valign: center;
+          tooltip-text: _("Skip Forward 10s (Right)");
 
           accessibility {
             label: _("Skip Forward 10s");
