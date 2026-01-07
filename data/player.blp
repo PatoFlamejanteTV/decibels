@@ -93,15 +93,28 @@ template $APPlayerState: Adw.Bin {
           action-name: "player.play-pause";
           width-request: 42;
           height-request: 42;
+          tooltip-text: _("Play (Space)");
 
           Image playback_image {
             icon-name: "pause-large-symbolic";
             icon-size: large;
           }
 
+          accessibility {
+            label: _("Play");
+          }
+
           styles [
-          tooltip-text: gsprintf(_("%s (%s)"), _("Skip Back 10s"), "Left");
-          tooltip-text: gsprintf(_("%s (%s)"), _("Skip Forward 10s"), "Right");
+            "circular",
+          ]
+        }
+
+        Button {
+          action-name: "player.skip-seconds";
+          action-target: "10";
+          icon-name: "skip-forwards-10-symbolic";
+          valign: center;
+          tooltip-text: _("Skip Forward 10s (Right)");
 
           accessibility {
             label: _("Skip Forward 10s");
