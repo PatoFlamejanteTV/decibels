@@ -67,6 +67,8 @@ export class APWaveformScale extends Gtk.Widget {
   constructor(params: Partial<Gtk.Widget.ConstructorProperties> | undefined) {
     super(params);
 
+    this.focusable = true;
+
     this._paintable = new APWaveformBarChart();
 
     this.animation = Adw.TimedAnimation.new(
@@ -95,6 +97,39 @@ export class APWaveformScale extends Gtk.Widget {
     drag_gesture.connect("drag-begin", this.drag_begin_cb.bind(this));
     drag_gesture.connect("drag-update", this.drag_update_cb.bind(this));
     this.add_controller(drag_gesture);
+
+    const key_controller = Gtk.EventControllerKey.new();
+    key_controller.connect(
+      "key-pressed",
+      (
+        _controller: Gtk.EventControllerKey,
+        keyval: number,
+        _keycode: number,
+        _state: Gdk.ModifierType,
+      ) => {
+        let changed = false;
+        if (keyval === Gdk.KEY_Left || keyval === Gdk.KEY_KP_Left) {
+          this.position = Math.max(0, this.position - 0.01);
+          changed = true;
+        } else if (keyval === Gdk.KEY_Right || keyval === Gdk.KEY_KP_Right) {
+          this.position = Math.min(1, this.position + 0.01);
+          changed = true;
+        } else if (keyval === Gdk.KEY_Home || keyval === Gdk.KEY_KP_Home) {
+          this.position = 0;
+          changed = true;
+        } else if (keyval === Gdk.KEY_End || keyval === Gdk.KEY_KP_End) {
+          this.position = 1;
+          changed = true;
+        }
+
+        if (changed) {
+          this.emit("position-changed", this.position);
+          return true;
+        }
+        return false;
+      },
+    );
+    this.add_controller(key_controller);
 
     this.update_colors();
 
@@ -148,6 +183,7 @@ export class APWaveformScale extends Gtk.Widget {
 
   private drag_begin_cb(gesture: Gtk.GestureDrag): void {
     gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+    this.grab_focus();
   }
 
   private drag_update_cb(gesture: Gtk.GestureDrag, offset_x: number): void {
@@ -164,6 +200,7 @@ export class APWaveformScale extends Gtk.Widget {
     x: number,
     _y: number,
   ): void {
+    this.grab_focus();
     this.position = Math.max(0, Math.min(1, x / this.get_width()));
     this.emit("position-changed", this.position);
   }
@@ -248,6 +285,10 @@ export class APWaveformScale extends Gtk.Widget {
 
     rect.init(play_x, 0, 2, height);
     snapshot.append_color(this.left_color, rect);
+
+    if (this.has_focus) {
+      snapshot.render_focus(this.get_style_context(), 0, 0, width, height);
+    }
   }
 
   public destroy(): void {
