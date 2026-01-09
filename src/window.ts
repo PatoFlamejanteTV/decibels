@@ -12,6 +12,7 @@ import { APEmptyState } from "./empty.js";
 import { APErrorState } from "./error.js";
 import { APPlayerState } from "./player.js";
 import { APDragOverlay } from "./drag-overlay.js";
+import { APWaveformScale } from "./waveform-scale.js";
 
 Gio._promisify(Gtk.FileDialog.prototype, "open", "open_finish");
 Gio._promisify(Gio.File.prototype, "query_info_async", "query_info_finish");
@@ -263,6 +264,22 @@ export class Window extends Adw.ApplicationWindow {
     state: Gdk.ModifierType,
   ): boolean {
     const stream = this.stream;
+    const focus = this.get_focus();
+
+    if (
+      focus &&
+      focus instanceof APWaveformScale &&
+      (keyval === Gdk.KEY_Left ||
+        keyval === Gdk.KEY_Right ||
+        keyval === Gdk.KEY_KP_Left ||
+        keyval === Gdk.KEY_KP_Right ||
+        keyval === Gdk.KEY_Home ||
+        keyval === Gdk.KEY_KP_Home ||
+        keyval === Gdk.KEY_End ||
+        keyval === Gdk.KEY_KP_End)
+    ) {
+      return Gdk.EVENT_PROPAGATE;
+    }
 
     if (!stream.media_info) return Gdk.EVENT_PROPAGATE;
 
